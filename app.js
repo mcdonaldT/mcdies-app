@@ -440,7 +440,7 @@ app.post('/webhook/', (req, res) => {
 					if(isDefined(actionName)){
  						console.log(cartId+'   '+cardId);
 						function myFunc() {
-							text= `Your order has been submitted.I will text it to you for reference.Please provide the code to get your order started.Thank you for your order!`
+							text= `Your order has been submitted.I will text it to you for reference.Please provide this code to get your order started.Thank you for your order!`
 								 messageData = {
 										speech: text,
 										displayText: text
@@ -453,24 +453,16 @@ app.post('/webhook/', (req, res) => {
 							}else{
 								console.log(orderResult.code);
 								orderCode=orderResult.code;
-								qsr.getShortCodeService(orderResult.code, (error, newResult) => {
-									if(error){
-										console.log(error);
-									} else {
-										console.log(newResult.shortCode);
-										shortCode=newResult.shortCode;
-										qsr.gettingOrbIdFromOrderService(storeId, orderCode, newResult.shortCode, (error, orbIdResult) => {
+								qsr.gettingOrbIdFromOrderService(storeId, orderResult.code, (error, orbIdResult) => {
 											if(error){
 												console.log(error);
 											}else {
 												console.log(orbIdResult.displayCode);
-												setTimeout(() => myFunc(), 7000);
+												setTimeout(() => myFunc(), 5000);
 											}
-										});
-									}
-								});
-							}
-						});
+									});
+								}
+							});
 						}else{
  						text= 'I am sorry, I was not able to place an order for you.';
 							 messageData = {
